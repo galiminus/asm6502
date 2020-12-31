@@ -1,4 +1,4 @@
-require "../../r6502"
+require "r6502"
 include R6502
 
 TIA_BASE_ADDRESS = 0
