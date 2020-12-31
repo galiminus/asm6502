@@ -163,6 +163,12 @@ Output[ARGV[0]] do
 end
 ```
 
+Assemble it by running it:
+
+```
+ruby main.rb main.bin
+```
+
 As you can see, even though it looks like assembly, it it actually Ruby code: each operator is a Ruby fonction and there's also a few control stuff:
 
 * `Org[addr]`: set the current memory index.
