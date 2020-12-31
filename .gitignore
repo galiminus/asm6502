@@ -1,0 +1,7 @@
+*.bin
+*.asm
+*.h
+\#*\#
+build.sh
+main.rb
+*.gem
