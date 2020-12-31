@@ -1,4 +1,4 @@
-# r6502
+# asm6502
 
 Write 6502 assembly with Ruby code.
 
@@ -7,7 +7,7 @@ This gem was specifically built to write Atari2600 games and comes packages with
 ## Installation
 
 ```
-gem install r6502
+gem install asm6502
 ```
 
 ## Usage
@@ -82,13 +82,13 @@ LVOver	sta WSYNC
 	.word Start
 ```
 
-The same code written using r6502 will be something like:
+The same code written using asm6502 will be something like:
 
 ```ruby
-require "r6502"
-include R6502
+require "asm6502"
+include Asm6502
 
-require 'r6502/vcs'
+require 'asm6502/vcs'
 
 # We're going to mess with the playfield registers, PF0, PF1 and PF2.
 # Between them, they represent 20 bits of bitmap information

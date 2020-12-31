@@ -1,4 +1,4 @@
-module R6502
+module Asm6502
   X, Y = [ 'x', 'y' ]
   @@org = 0
   @@labels = {}

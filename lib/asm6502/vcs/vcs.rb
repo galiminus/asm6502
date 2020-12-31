@@ -1,5 +1,5 @@
-require "r6502"
-include R6502
+require "asm6502"
+include Asm6502
 
 TIA_BASE_ADDRESS = 0
 TIA_BASE_READ_ADDRESS = TIA_BASE_ADDRESS
