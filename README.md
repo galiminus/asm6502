@@ -2,8 +2,7 @@
 
 Write 6502 assembly with Ruby code.
 
-This gem was specifically built to write Atari2600 games and comes packages with some the Ruby equivalent of the `vcs.h` and `macro.h` files. It is also in a very early stage
-of development and should be considered as a proof of concept.
+This gem was specifically built to write Atari2600 games and comes packages with some the Ruby equivalent of the `vcs.h` and `macro.h` files. It is also in a very early stage of development and should be considered as a proof of concept. I also tried to make it less than 100 lines of code.
 
 ## Usage
 
@@ -157,4 +156,15 @@ Output[ARGV[0]] do
   Mem[2] = :reset
 end
 ```
+
+As you can see, even though it looks like assembly, it it actually Ruby code: each operator is a Ruby fonction and there's also a few control stuff:
+
+* `Org[addr]`: set the current memory index.
+* `Label[name, size = 0]`: Give a name to the current memory index and increase it by `size`.
+* `Output[path] { actual code to output }`: Everything in the block will be written in the final file `path`.
+* `Mem[size] = value`: set the memory at the current memory index to value and increases it by `size`.
+
+## Disclaimer
+
+This is just a proof and concept, I'm not sure everything works properly, I'm not sure about the way it works and I'm pretty certain it doesn't handle every use case. I'll try later to build an actual game from scratch with it.
 
