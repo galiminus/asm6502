@@ -5,3 +5,4 @@
 build.sh
 main.rb
 *.gem
+.DS_Store
