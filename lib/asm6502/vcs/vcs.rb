@@ -5,7 +5,7 @@ TIA_BASE_ADDRESS = 0
 TIA_BASE_READ_ADDRESS = TIA_BASE_ADDRESS
 TIA_BASE_WRITE_ADDRESS = TIA_BASE_ADDRESS
 
-Org[TIA_BASE_WRITE_ADDRESS]
+Asm6502.org = TIA_BASE_WRITE_ADDRESS
 
 Label[:VSYNC, 1]    # $00   0000 00x0   Vertical Sync Set-Clear
 Label[:VBLANK, 1]   # $01   xx00 00x0   Vertical Blank Set-Clear
@@ -53,7 +53,7 @@ Label[:HMOVE, 1]    # $2A   ---- ----   Apply Horizontal Motion
 Label[:HMCLR, 1]    # $2B   ---- ----   Clear Horizontal Move Registers
 Label[:CXCLR, 1]    # $2C   ---- ----   Clear Collision Latches
 
-Org[TIA_BASE_READ_ADDRESS]
+Asm6502.org = TIA_BASE_READ_ADDRESS
 
 Label[:CXM0P, 1]    # $00       xx00 0000       Read Collision  M0-P1   M0-P0
 Label[:CXM1P, 1]    # $01       xx00 0000                       M1-P0   M1-P1
@@ -70,7 +70,7 @@ Label[:INPT3, 1]    # $0B       x000 0000       Read Pot Port 3
 Label[:INPT4, 1]    # $0C       x000 0000       Read Input (Trigger) 0
 Label[:INPT5, 1]    # $0D       x000 0000       Read Input (Trigger) 1
 
-Org[0x280]
+Asm6502.org = 0x280
 
 Label[:SWCHA, 1]    # $280      Port A data register for joysticks:
                     #           Bits 4-7 for player 1.  Bits 0-3 for player 2.

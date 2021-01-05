@@ -95,11 +95,11 @@ require 'asm6502/vcs'
 # which are replicated over 40 wide pixels for each scanline.
 # By changing the registers before each scanline, we can draw bitmaps.
 
-Org[0x0080]
+Asm6502.org = 0x0080
 Label[:counter, 1]
 
-Output[ARGV[0]] do
-  Org[0xf000]
+Output[$stdout] do
+  Asm6502.org = 0xf000
   Label[:reset]
 
     clean_start
@@ -155,7 +155,7 @@ Output[ARGV[0]] do
     inc :counter
     jmp :next_frame
 
-  Org[0xfffa]
+  Asm6502.org = 0xfffa
 
   Mem[2] = :reset
   Mem[2] = :reset
@@ -165,9 +165,9 @@ end
 
 As you can see, even though it looks like assembly, it it actually Ruby code: each operator is a Ruby fonction and there's also a few control stuff:
 
-* `Org[addr]`: set the current memory index.
+* `Asm6502.org = addr`: set the current memory index.
 * `Label[name, size = 0]`: Give a name to the current memory index and increase it by `size`.
-* `Output[path] { actual code to output }`: Everything in the block will be written in the final file `path`.
+* `Output[file] { actual code to output }`: Everything in the block will be written in the given file.
 * `Mem[size] = value`: set the memory at the current memory index to value and increases it by `size`.
 
 ## Disclaimer

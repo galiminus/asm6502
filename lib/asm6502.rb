@@ -6,15 +6,13 @@ module Asm6502
   @@labels = {}
   @@mem = []
 
+  def org=(value) @@org = value; end
+
   class Label
     def self.[](value, size = 0)
       @@labels[value] = @@org
       @@org += size
     end
-  end
-
-  class Org
-    def self.[](value) @@org = value; end
   end
 
   class Output
@@ -66,8 +64,6 @@ module Asm6502
       end.each do |opi|
         Mem[1] = opi
       end
-    rescue => error
-      raise ArgumentError.new("Unexpected error on '#{opcode} #{args.join(" ")}': #{error}")
     end
   end
 end
