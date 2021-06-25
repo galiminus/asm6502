@@ -8,6 +8,12 @@ module Asm6502
 
   def org=(value) @@org = value; end
 
+  def segment(output)
+    @@mem = []
+    yield
+    output.write(@@mem.drop_while(&:nil?).reverse.drop_while(&:nil?).reverse.map(&:to_i).pack("c*"))
+  end
+
   class Label
     def self.[](value, size = 0)
       @@labels[value] = @@org
@@ -15,21 +21,17 @@ module Asm6502
     end
   end
 
-  class Output
-    def self.[](output, &block)
-      @@mem = []
-      block.call
-      output.write(@@mem.drop_while(&:nil?).reverse.drop_while(&:nil?).reverse.map(&:to_i).pack("c*"))
-    end
-  end
-
   class Mem < Struct.new(:length, :value)
     def self.[]=(length, value)
+      bytes_length = length == :word ? 2 : length
       value = value.kind_of?(Symbol) ? @@labels[value] : value
-      sprintf("%0#{value.size * 8 + 2}b", value)[2..-1].scan(/.{8}/).last(length).map { |i| i.to_i(2) }.reverse.each_with_index do |digit, index|
+      bytes = sprintf("%0#{value.size * 8 + 2}b", value)[2..-1].scan(/.{8}/).last(bytes_length).map { |i| i.to_i(2) }
+      bytes = bytes.reverse if length == :word
+
+      bytes.each_with_index do |digit, index|
         @@mem[@@org + index] = digit
       end
-      @@org += length
+      @@org += bytes_length
     end
   end
 
