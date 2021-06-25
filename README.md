@@ -2,7 +2,7 @@
 
 Write 6502 assembly with Ruby code.
 
-This gem was specifically built to write Atari2600 games and comes packages with some the Ruby equivalent of the `vcs.h` and `macro.h` files. It is also in a very early stage of development and should be considered as a proof of concept. I also tried to make it less than 100 lines of code.
+This gem was specifically built to write Atari 2600 games and comes packaged with the Ruby equivalent of the `vcs.h` and `macro.h` files. It is also in a very early stage of development and should be considered as a proof of concept. I also tried to make it less than 100 lines of code.
 
 ## Installation
 
@@ -161,6 +161,12 @@ Output[$stdout] do
   Mem[2] = :reset
   Mem[2] = :reset
 end
+```
+
+Assemble it by running it:
+
+```
+ruby main.rb main.bin
 ```
 
 As you can see, even though it looks like assembly, it it actually Ruby code: each operator is a Ruby fonction and there's also a few control stuff:
