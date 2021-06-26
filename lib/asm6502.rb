@@ -23,10 +23,9 @@ module Asm6502
 
   class Mem < Struct.new(:length, :value)
     def self.[]=(length, value)
-      bytes_length = length == :word ? 2 : length
+      bytes_length = { byte: 1, word: 2, long: 4 }[length] || length
       value = value.kind_of?(Symbol) ? @@labels[value] : value
-      bytes = sprintf("%0#{value.size * 8 + 2}b", value)[2..-1].scan(/.{8}/).last(bytes_length).map { |i| i.to_i(2) }
-      bytes = bytes.reverse if length == :word
+      bytes = sprintf("%0#{value.size * 8 + 2}b", value)[2..-1].scan(/.{8}/).last(bytes_length).map { |i| i.to_i(2) }.reverse
 
       bytes.each_with_index do |digit, index|
         @@mem[@@org + index] = digit
@@ -64,7 +63,7 @@ module Asm6502
       else
         raise ArgumentError.new("No suitable mode found for '#{opcode} #{args.join(" ")}'")
       end.each do |opi|
-        Mem[1] = opi
+        Mem[:byte] = opi
       end
     end
   end
