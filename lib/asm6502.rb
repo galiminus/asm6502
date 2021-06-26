@@ -7,6 +7,7 @@ module Asm6502
   @@mem = []
 
   def org=(value) @@org = value; end
+  def org; @@org end
 
   def segment(output)
     @@mem = []
@@ -14,14 +15,14 @@ module Asm6502
     output.write(@@mem.drop_while(&:nil?).reverse.drop_while(&:nil?).reverse.map(&:to_i).pack("c*"))
   end
 
-  module Label
+  class Label
     def self.[](value, size = 0)
       @@labels[value] = @@org
       @@org += size
     end
   end
 
-  module Mem
+  class Mem
     def self.[]=(length, value)
       bytes_length = { byte: 1, word: 2, long: 4 }[length] || length
       value = value.kind_of?(Symbol) ? @@labels[value] : value

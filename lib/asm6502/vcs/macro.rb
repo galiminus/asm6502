@@ -138,17 +138,14 @@ end
 #
 # eg: BOUNDARY 5    # position at byte #5 in page
 
-# .FREE_BYTES SET 0
-#    MAC BOUNDARY
-#       REPEAT 256
-#          IF <. % {1} = 0
-#             MEXIT
-#          ELSE
-# .FREE_BYTES SET .FREE_BYTES + 1
-#             .byte $00
-#          ENDIF
-#       REPEND
-#    ENDM
-
-
-# EOF
+def boundary(position)
+  free_bytes = 0
+  256.times do
+    if (Asm6502.org & 0xff) == position
+      break
+    else
+      free_bytes += 1
+      Mem[:byte] = 0
+    end
+  end
+end
