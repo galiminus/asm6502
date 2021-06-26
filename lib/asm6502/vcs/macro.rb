@@ -1,7 +1,7 @@
 # MACRO.H
 # Version 1.06, 3/SEPTEMBER/2004
 
-VERSION_MACRO         = 106
+VERSION_MACRO = 106
 
 #
 # THIS FILE IS EXPLICITLY SUPPORTED AS A DASM-PREFERRED COMPANION FILE
@@ -54,20 +54,19 @@ VERSION_MACRO         = 106
 # Uses illegal opcode (DASM 2.20.01 onwards).
 
 def sleep(cycles)  #usage: sleep n (n>1)
-    if cycles < 2
-        puts "MACRO ERROR: 'SLEEP': Duration must be > 1"
-        exit 1
-    end
+  if cycles < 2
+    raise "MACRO ERROR: 'SLEEP': Duration must be > 1"
+  end
 
-    if cycles & 1
-        bit :VSYNC
-    end
+  if cycles & 1
+    bit :VSYNC
+  end
 
-    cycles -= 3
+  cycles -= 3
 
-    (cycles / 2).times do
-        nop
-    end
+  (cycles / 2).times do
+    nop
+  end
 end
 
 #-------------------------------------------------------------------------------
@@ -79,13 +78,12 @@ end
 # OUT: A = 0
 
 def vertical_sync
-                lda 0b1110         #%1110          # each '1' bits generate a VSYNC ON line (bits 1..3)
+  lda 0b1110         #%1110          # each '1' bits generate a VSYNC ON line (bits 1..3)
 Label[:VSLP1]
-                sta :WSYNC   # 1st '0' bit resets Vsync, 2nd '0' bit exit loop
-                sta :VSYNC
-                lsr
-                bne :VSLP1          # branch until VYSNC has been reset
-
+  sta :WSYNC         # 1st '0' bit resets Vsync, 2nd '0' bit exit loop
+  sta :VSYNC
+  lsr
+  bne :VSLP1         # branch until VYSNC has been reset
 end
 
 #-------------------------------------------------------------------------------
@@ -98,18 +96,17 @@ end
 # Code written to minimise total ROM usage - uses weird 6502 knowledge :)
 
 def clean_start
-                sei
-                cld
+  sei
+  cld
 
-                ldx 0
-                txa
-                tay
+  ldx 0
+  txa
+  tay
 Label[:CLEAR_STACK]
-                dex
-                txs
-                pha
-                bne :CLEAR_STACK     # SP=$FF, X = A = Y = 0
-
+  dex
+  txs
+  pha
+  bne :CLEAR_STACK     # SP=$FF, X = A = Y = 0
 end
 
 #-------------------------------------------------------
@@ -126,10 +123,10 @@ end
 # IN 2: absolute address
 
 def set_pointer(pointer, address)
-    LDA #<.ADDRESS  # Get Lowbyte of Address
-    STA .POINTER    # Store in pointer
-    LDA #>.ADDRESS  # Get Hibyte of Address
-    STA .POINTER+1  # Store in pointer+1
+  lda address & 0xff  # Get Lowbyte of Address
+  sta pointer         # Store in pointer
+  lda address >> 8    # Get Hibyte of Address
+  sta pointer + 1     # Store in pointer + 1
 end
 
 #-------------------------------------------------------

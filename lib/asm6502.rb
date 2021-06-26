@@ -14,22 +14,25 @@ module Asm6502
     output.write(@@mem.drop_while(&:nil?).reverse.drop_while(&:nil?).reverse.map(&:to_i).pack("c*"))
   end
 
-  class Label
+  module Label
     def self.[](value, size = 0)
       @@labels[value] = @@org
       @@org += size
     end
   end
 
-  class Mem < Struct.new(:length, :value)
+  module Mem
     def self.[]=(length, value)
       bytes_length = { byte: 1, word: 2, long: 4 }[length] || length
       value = value.kind_of?(Symbol) ? @@labels[value] : value
-      bytes = sprintf("%0#{value.size * 8 + 2}b", value)[2..-1].scan(/.{8}/).last(bytes_length).map { |i| i.to_i(2) }.reverse
-
-      bytes.each_with_index do |digit, index|
-        @@mem[@@org + index] = digit
-      end
+      bytes = sprintf("%0#{value.size * 8 + 2}b", value)[2..-1]
+        .scan(/.{8}/)
+        .last(bytes_length)
+        .map { |i| i.to_i(2) }
+        .reverse
+        .each_with_index do |digit, index|
+          @@mem[@@org + index] = digit
+        end
       @@org += bytes_length
     end
   end
